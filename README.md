@@ -1,3 +1,8 @@
+### About this repository 
+
+This repository shows gNOI demo with Arista.  
+It includes examples using gNOIc and gRPCurl.  
+
 ### About gRPC
 
 gRPC - Google Remote Procedure Call   
