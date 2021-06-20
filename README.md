@@ -1,10 +1,10 @@
-### gRPC
+### About gRPC
 
 gRPC - Google Remote Procedure Call   
 
 gRPC uses protobuf and HTTP/2 
 
-### gNOI 
+### About gNOI 
 
 gNOI - gRPC Network Operations Interface   
 
@@ -82,7 +82,9 @@ logout
 DC1-L2LEAF2A#exit
 Connection to 10.73.1.118 closed.
 ```
-### gNOIc 
+### gNOI demo with Arista using gNOIc 
+
+#### About gNOIc 
 
 gNOIc is a gNOI CLI client   
 https://github.com/karimra/gnoic  
@@ -159,11 +161,13 @@ INFO[0000] "10.73.1.118:6030" key-type=KT_RSA, cert-type=CT_X509, key-size=2048:
 +------------------+------------------+
 ```
 
-### gRPCurl 
+### gNOI demo with Arista using gRPCurl 
+
+#### About gRPCurl 
 
 gRPCurl  is a command-line tool that lets you interact with gRPC servers.   
 
-#### Install go 
+#### Install GO 
 
 ```
 $ go version
