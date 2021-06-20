@@ -22,7 +22,7 @@ As example, this gNOI proto file https://github.com/openconfig/gnoi/blob/master/
 - Traceroute executes the traceroute command on the target and streams back the results  
 - As you can see in the proto file, the field VRF is not defined for these messages  
   
-### gNOI support on EOS 
+### About gNOI support on EOS 
 
 https://eos.arista.com/eos-4-24-2f/gnoi/  
 
