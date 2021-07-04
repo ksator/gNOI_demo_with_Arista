@@ -43,8 +43,8 @@ As example, this gNOI proto file https://github.com/openconfig/gnoi/blob/master/
 https://eos.arista.com/eos-4-24-2f/gnoi/
 
 Examples:
-https://eos.arista.com/eos-4-22-1f/gnoi-ping/
-https://eos.arista.com/eos-4-22-1f/gnoi-traceroute/
+- https://eos.arista.com/eos-4-22-1f/gnoi-ping/
+- https://eos.arista.com/eos-4-22-1f/gnoi-traceroute/
 
 ### EOS
 
