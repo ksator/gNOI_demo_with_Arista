@@ -1,38 +1,54 @@
-### About this repository 
+- [About this repository](#about-this-repository)
+- [About gRPC](#about-grpc)
+- [About gNOI](#about-gnoi)
+- [About gNOI support on EOS](#about-gnoi-support-on-eos)
+- [EOS](#eos)
+- [gNOI demo with Arista using gNOIc](#gnoi-demo-with-arista-using-gnoic)
+  - [About gNOIc](#about-gnoic)
+  - [Install gNOIc](#install-gnoic)
+  - [Use gNMIc](#use-gnmic)
+- [gNOI demo with Arista using gRPCurl](#gnoi-demo-with-arista-using-grpcurl)
+  - [About gRPCurl](#about-grpcurl)
+  - [Install GO](#install-go)
+  - [Get gNOI repository](#get-gnoi-repository)
+  - [Install gRPCurl](#install-grpcurl)
+  - [Use gRPCurl](#use-grpcurl)
 
-This repository shows gNOI demo with Arista.  
-It includes examples using gNOIc and gRPCurl.  
+### About this repository
+
+This repository shows gNOI demo with Arista.
+It includes examples using gNOIc and gRPCurl.
 
 ### About gRPC
 
-gRPC - Google Remote Procedure Call   
+gRPC - Google Remote Procedure Call
 
-gRPC uses protobuf and HTTP/2 
+gRPC uses protobuf and HTTP/2
 
-### About gNOI 
+### About gNOI
 
-gNOI - gRPC Network Operations Interface   
+gNOI - gRPC Network Operations Interface
 
-gNOI defines a set of gRPC-based microservices for executing operational commands on network devices.  
+gNOI defines a set of gRPC-based microservices for executing operational commands on network devices.
 
-gNOI repository https://github.com/openconfig/gnoi  
+gNOI repository https://github.com/openconfig/gnoi
 
 As example, this gNOI proto file https://github.com/openconfig/gnoi/blob/master/system/system.proto defines the service `System` with the RPC `Traceroute` and `Ping`
 - Ping executes the ping command on the target and streams back the results
-- Traceroute executes the traceroute command on the target and streams back the results  
-- As you can see in the proto file, the field VRF is not defined for these messages  
-  
-### About gNOI support on EOS 
+- Traceroute executes the traceroute command on the target and streams back the results
+- As you can see in the proto file, the field VRF is not defined for these messages
 
-https://eos.arista.com/eos-4-24-2f/gnoi/  
+### About gNOI support on EOS
 
-Examples:  
-https://eos.arista.com/eos-4-22-1f/gnoi-ping/   
-https://eos.arista.com/eos-4-22-1f/gnoi-traceroute/  
+https://eos.arista.com/eos-4-24-2f/gnoi/
 
-### EOS 
+Examples:
+https://eos.arista.com/eos-4-22-1f/gnoi-ping/
+https://eos.arista.com/eos-4-22-1f/gnoi-traceroute/
 
-EOS switch configuration:   
+### EOS
+
+EOS switch configuration:
 ```
 hostname DC1-L2LEAF2A
 
@@ -43,7 +59,7 @@ interface Management1
    vrf MGMT
    ip address 10.73.1.118/24
 
-username arista secret 0 arista 
+username arista secret 0 arista
 
 ip access-list GNMI
    10 permit tcp any any eq gnmi
@@ -58,10 +74,10 @@ management api http-commands
    protocol http
    no shutdown
 ```
-Before to use gNOI ping and traceroute, lets run these commands locally: 
+Before to use gNOI ping and traceroute, lets run these commands locally:
 ```
 $ ssh arista@10.73.1.118
-Password: 
+Password:
 Last login: Thu Jun  3 12:06:25 2021 from 10.73.1.3
 DC1-L2LEAF2A>en
 DC1-L2LEAF2A#bash
@@ -76,25 +92,25 @@ PING 172.31.255.0 (172.31.255.0) 56(84) bytes of data.
 --- 172.31.255.0 ping statistics ---
 2 packets transmitted, 2 received, 0% packet loss, time 1001ms
 rtt min/avg/max/mdev = 18.861/21.738/24.616/2.881 ms
-[arista@DC1-L2LEAF2A ~]$ 
+[arista@DC1-L2LEAF2A ~]$
 [arista@DC1-L2LEAF2A ~]$ traceroute -A 172.31.255.0
 traceroute to 172.31.255.0 (172.31.255.0), 30 hops max, 60 byte packets
  1  10.90.90.1 (10.90.90.1) [!!]  26.636 ms  29.420 ms  32.113 ms
  2  172.31.255.0 (172.31.255.0) [!!]  52.764 ms  53.881 ms  63.213 ms
-[arista@DC1-L2LEAF2A ~]$ 
+[arista@DC1-L2LEAF2A ~]$
 [arista@DC1-L2LEAF2A ~]$ exit
 logout
 DC1-L2LEAF2A#exit
 Connection to 10.73.1.118 closed.
 ```
-### gNOI demo with Arista using gNOIc 
+### gNOI demo with Arista using gNOIc
 
-#### About gNOIc 
+#### About gNOIc
 
-gNOIc is a gNOI CLI client   
-https://github.com/karimra/gnoic  
- 
-#### Install gNOIc 
+gNOIc is a gNOI CLI client
+https://github.com/karimra/gnoic
+
+#### Install gNOIc
 ```
 bash -c "$(curl -sL https://get-gnoic.kmrd.dev)"
 ```
@@ -106,10 +122,10 @@ version : 0.0.5
  gitURL : https://github.com/karimra/gnoic
    docs : https://gnoic.kmrd.dev
 ```
-#### Use gNMIc 
+#### Use gNMIc
 ```
 $ gnoic -a 10.73.1.118:6030 -u arista -p arista --insecure  system ping --destination 172.31.255.0 --count 2 --do-not-resolve
-WARN[0000] "10.73.1.118:6030" could not lookup hostname: lookup 118.1.73.10.in-addr.arpa. on 127.0.0.53:53: no such host 
+WARN[0000] "10.73.1.118:6030" could not lookup hostname: lookup 118.1.73.10.in-addr.arpa. on 127.0.0.53:53: no such host
 source: "172.31.255.0"
 time: 31200000
 bytes: 64
@@ -131,7 +147,7 @@ std_dev: 1351000
 ```
 ```
 $ gnoic -a 10.73.1.118:6030 -u arista -p arista --insecure  system traceroute --destination 172.31.255.0 --do-not-resolve
-WARN[0000] "10.73.1.118:6030" could not lookup hostname: lookup 118.1.73.10.in-addr.arpa. on 127.0.0.53:53: no such host 
+WARN[0000] "10.73.1.118:6030" could not lookup hostname: lookup 118.1.73.10.in-addr.arpa. on 127.0.0.53:53: no such host
 destination_name: "172.31.255.0"
 destination_address: "172.31.255.0"
 hops: 30
@@ -157,8 +173,8 @@ rtt: 71079000
 ```
 ```
 $ gnoic -a 10.73.1.118:6030 -u arista -p arista --insecure cert can-generate-csr
-WARN[0000] "10.73.1.118:6030" could not lookup hostname: lookup 118.1.73.10.in-addr.arpa. on 127.0.0.53:53: no such host 
-INFO[0000] "10.73.1.118:6030" key-type=KT_RSA, cert-type=CT_X509, key-size=2048: can_generate: true 
+WARN[0000] "10.73.1.118:6030" could not lookup hostname: lookup 118.1.73.10.in-addr.arpa. on 127.0.0.53:53: no such host
+INFO[0000] "10.73.1.118:6030" key-type=KT_RSA, cert-type=CT_X509, key-size=2048: can_generate: true
 +------------------+------------------+
 |   Target Name    | Can Generate CSR |
 +------------------+------------------+
@@ -166,13 +182,13 @@ INFO[0000] "10.73.1.118:6030" key-type=KT_RSA, cert-type=CT_X509, key-size=2048:
 +------------------+------------------+
 ```
 
-### gNOI demo with Arista using gRPCurl 
+### gNOI demo with Arista using gRPCurl
 
-#### About gRPCurl 
+#### About gRPCurl
 
-gRPCurl  is a command-line tool that lets you interact with gRPC servers.   
+gRPCurl  is a command-line tool that lets you interact with gRPC servers.
 
-#### Install GO 
+#### Install GO
 
 ```
 $ go version
@@ -184,7 +200,7 @@ $ go env | grep 'GOROOT\|GOPATH'
 ```
 $ echo $HOME
 $ echo $GOROOT
-$ echo $GOPATH 
+$ echo $GOPATH
 $ echo $PATH
 $ export GOROOT=/usr/local/go
 $ export GOPATH=$HOME/go
@@ -195,7 +211,7 @@ $ export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
 ```
 $ mkdir -p $GOPATH/src/github.com/openconfig
-$ git clone https://github.com/openconfig/gnoi.git $GOPATH/src/github.com/openconfig/gnoi 
+$ git clone https://github.com/openconfig/gnoi.git $GOPATH/src/github.com/openconfig/gnoi
 ```
 ```
 $ ls $GOPATH/src/github.com/openconfig
@@ -216,7 +232,7 @@ $ go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest
 ```
 ```
 ls $GOPATH/bin/
-grpcurl 
+grpcurl
 ```
 
 #### Use gRPCurl
