@@ -61,13 +61,9 @@ interface Management1
 
 username arista secret 0 arista
 
-ip access-list GNMI
-   10 permit tcp any any eq gnmi
-
 management api gnmi
    transport grpc def
       vrf MGMT
-      ip access-group GNMI
    provider eos-native
 
 management api http-commands
