@@ -13,6 +13,11 @@
   - [Get gNOI repository](#get-gnoi-repository)
   - [Install gRPCurl](#install-grpcurl)
   - [Use gRPCurl](#use-grpcurl)
+    - [Describe from a proto file](#describe-from-a-proto-file)
+    - [List](#list)
+      - [List from a proto file](#list-from-a-proto-file)
+      - [List from a gRPC server (EOS device)](#list-from-a-grpc-server-eos-device)
+    - [Execute gNOI RPC with EOS](#execute-gnoi-rpc-with-eos)
 
 ### About this repository
 
@@ -232,6 +237,95 @@ grpcurl
 ```
 
 #### Use gRPCurl
+##### Describe from a proto file
+```
+$ grpcurl --plaintext  --import-path ${GOPATH}/src --proto github.com/openconfig/gnoi/system/system.proto  describe  gnoi.system.System.CancelReboot
+gnoi.system.System.CancelReboot is a method:
+// CancelReboot cancels any pending reboot request.
+rpc CancelReboot ( .gnoi.system.CancelRebootRequest ) returns ( .gnoi.system.CancelRebootResponse );
+```
+```
+$ grpcurl --plaintext  --import-path ${GOPATH}/src --proto github.com/openconfig/gnoi/system/system.proto  describe  gnoi.system.System
+gnoi.system.System is a service:
+// The gNOI service is a collection of operational RPC's that allow for the
+// management of a target outside of the configuration and telemetry pipeline.
+service System {
+  // CancelReboot cancels any pending reboot request.
+  rpc CancelReboot ( .gnoi.system.CancelRebootRequest ) returns ( .gnoi.system.CancelRebootResponse );
+  // Ping executes the ping command on the target and streams back
+  // the results.  Some targets may not stream any results until all
+  // results are in.  If a packet count is not explicitly provided,
+  // 5 is used.
+  rpc Ping ( .gnoi.system.PingRequest ) returns ( stream .gnoi.system.PingResponse );
+  // Reboot causes the target to reboot, possibly at some point in the future.
+  // If the method of reboot is not supported then the Reboot RPC will fail.
+  // If the reboot is immediate the command will block until the subcomponents
+  // have restarted.
+  // If a reboot on the active control processor is pending the service must
+  // reject all other reboot requests.
+  // If a reboot request for active control processor is initiated with other
+  // pending reboot requests it must be rejected.
+  rpc Reboot ( .gnoi.system.RebootRequest ) returns ( .gnoi.system.RebootResponse );
+  // RebootStatus returns the status of reboot for the target.
+  rpc RebootStatus ( .gnoi.system.RebootStatusRequest ) returns ( .gnoi.system.RebootStatusResponse );
+  // SetPackage places a software package (possibly including bootable images)
+  // on the target. The file is sent in sequential messages, each message
+  // up to 64KB of data. A final message must be sent that includes the hash
+  // of the data sent. An error is returned if the location does not exist or
+  // there is an error writing the data. If no checksum is received, the target
+  // must assume the operation is incomplete and remove the partially
+  // transmitted file. The target should initially write the file to a temporary
+  // location so a failure does not destroy the original file.
+  rpc SetPackage ( stream .gnoi.system.SetPackageRequest ) returns ( .gnoi.system.SetPackageResponse );
+  // SwitchControlProcessor will switch from the current route processor to the
+  // provided route processor. If the current route processor is the same as the
+  // one provided it is a NOOP. If the target does not exist an error is
+  // returned.
+  rpc SwitchControlProcessor ( .gnoi.system.SwitchControlProcessorRequest ) returns ( .gnoi.system.SwitchControlProcessorResponse );
+  // Time returns the current time on the target.  Time is typically used to
+  // test if a target is actually responding.
+  rpc Time ( .gnoi.system.TimeRequest ) returns ( .gnoi.system.TimeResponse );
+  // Traceroute executes the traceroute command on the target and streams back
+  // the results.  Some targets may not stream any results until all
+  // results are in.  If a hop count is not explicitly provided,
+  // 30 is used.
+  rpc Traceroute ( .gnoi.system.TracerouteRequest ) returns ( stream .gnoi.system.TracerouteResponse );
+}
+```
+##### List
+###### List from a proto file
+
+```
+$ grpcurl --plaintext  --import-path ${GOPATH}/src --proto github.com/openconfig/gnoi/system/system.proto list
+gnoi.system.System
+```
+```
+$ grpcurl --plaintext  --import-path ${GOPATH}/src --proto github.com/openconfig/gnoi/system/system.proto list gnoi.system.System
+gnoi.system.System.CancelReboot
+gnoi.system.System.Ping
+gnoi.system.System.Reboot
+gnoi.system.System.RebootStatus
+gnoi.system.System.SetPackage
+gnoi.system.System.SwitchControlProcessor
+gnoi.system.System.Time
+gnoi.system.System.Traceroute
+```
+```
+$ grpcurl --plaintext  --import-path ${GOPATH}/src --proto github.com/openconfig/gnoi/os/os.proto list gnoi.os.OS
+gnoi.os.OS.Activate
+gnoi.os.OS.Install
+gnoi.os.OS.Verify
+```
+###### List from a gRPC server (EOS device)
+
+```
+$ grpcurl --plaintext 10.73.1.105:6030 list
+gnmi.gNMI
+gnoi.certificate.CertificateManagement
+gnoi.system.System
+grpc.reflection.v1alpha.ServerReflection
+```
+##### Execute gNOI RPC with EOS
 ```
 $ grpcurl -H 'username: arista'  -H 'password: arista' -d '{"destination": "172.31.255.0", "count": 2, "do_not_resolve":true}' -import-path ${GOPATH}/src -proto github.com/openconfig/gnoi/system/system.proto -plaintext 10.73.1.118:6030 gnoi.system.System/Ping
 {
