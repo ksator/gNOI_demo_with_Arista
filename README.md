@@ -6,7 +6,7 @@
 - [gNOI demo with Arista using gNOIc](#gnoi-demo-with-arista-using-gnoic)
   - [About gNOIc](#about-gnoic)
   - [Install gNOIc](#install-gnoic)
-  - [Use gNMIc](#use-gnmic)
+  - [Use gNOIc](#use-gnoic)
 - [gNOI demo with Arista using gRPCurl](#gnoi-demo-with-arista-using-grpcurl)
   - [About gRPCurl](#about-grpcurl)
   - [Install GO](#install-go)
@@ -123,7 +123,7 @@ version : 0.0.5
  gitURL : https://github.com/karimra/gnoic
    docs : https://gnoic.kmrd.dev
 ```
-#### Use gNMIc
+#### Use gNOIc
 ```
 $ gnoic -a 10.73.1.118:6030 -u arista -p arista --insecure  system ping --destination 172.31.255.0 --count 2 --do-not-resolve
 WARN[0000] "10.73.1.118:6030" could not lookup hostname: lookup 118.1.73.10.in-addr.arpa. on 127.0.0.53:53: no such host
