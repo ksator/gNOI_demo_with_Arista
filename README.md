@@ -69,11 +69,6 @@ username arista secret 0 arista
 management api gnmi
    transport grpc def
       vrf MGMT
-   provider eos-native
-
-management api http-commands
-   protocol http
-   no shutdown
 ```
 Before to use gNOI ping and traceroute, lets run these commands locally:
 ```
